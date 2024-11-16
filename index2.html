@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Read More Example</title>
+  <style>
+    .content {
+      overflow: hidden;
+      height: 30px; /* Show only a limited portion */
+      transition: height 0.3s ease;
+      width: 150px;
+    }
+
+    .content.expanded {
+      height: auto; /* Show full content when expanded */
+    }
+
+    .read-more-btn {
+      cursor: pointer;
+      color: blue;
+      background: none;
+      border: none;
+      font-size: 1em;
+      text-decoration: underline;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="item">
+    <div id="content1" class="content">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tempor, nulla eu auctor
+        aliquet, urna purus pretium lacus, at fringilla lacus libero non arcu. Suspendisse potenti.
+        Integer venenatis felis in ante euismod, at aliquam massa fringilla. 
+        <strong>Full details go here!</strong>
+      </p>
+    </div>
+    <button id="readMoreBtn1" class="read-more-btn">Read More</button>
+  </div>
+
+  <script>
+    const readMoreBtn = document.getElementById("readMoreBtn1");
+    const content = document.getElementById("content1");
+
+    readMoreBtn.addEventListener("click", () => {
+      content.classList.toggle("expanded");
+      readMoreBtn.textContent = content.classList.contains("expanded")
+        ? "Read Less"
+        : "Read More";
+    });
+  </script>
+</body>
+</html>

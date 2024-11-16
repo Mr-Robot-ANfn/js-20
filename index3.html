@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Details</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .form-container {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add Student</h2>
+    <form id="studentForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" required>
+      <label for="age">Age:</label>
+      <input type="number" id="age" required>
+      <label for="grade">Grade:</label>
+      <input type="text" id="grade" required>
+      <button type="submit">Add Student</button>
+    </form>
+  </div>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Grade</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <div id="editFormContainer" class="hidden">
+    <h2>Edit Student</h2>
+    <form id="editForm">
+      <label for="editName">Name:</label>
+      <input type="text" id="editName" required>
+      <label for="editAge">Age:</label>
+      <input type="number" id="editAge" required>
+      <label for="editGrade">Grade:</label>
+      <input type="text" id="editGrade" required>
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+
+  <script>
+    const studentForm = document.getElementById("studentForm");
+    const studentTable = document.getElementById("studentTable").querySelector("tbody");
+    const editFormContainer = document.getElementById("editFormContainer");
+    const editForm = document.getElementById("editForm");
+
+    let editingRow = null;
+
+    // Add Student
+    studentForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const age = document.getElementById("age").value;
+      const grade = document.getElementById("grade").value;
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${name}</td>
+        <td>${age}</td>
+        <td>${grade}</td>
+        <td>
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </td>
+      `;
+
+      studentTable.appendChild(row);
+      studentForm.reset();
+
+      // Add event listeners for Edit and Delete buttons
+      row.querySelector(".delete-btn").addEventListener("click", () => {
+        studentTable.removeChild(row);
+      });
+
+      row.querySelector(".edit-btn").addEventListener("click", () => {
+        editingRow = row;
+        document.getElementById("editName").value = name;
+        document.getElementById("editAge").value = age;
+        document.getElementById("editGrade").value = grade;
+        editFormContainer.classList.remove("hidden");
+      });
+    });
+
+    // Edit Student
+    editForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const newName = document.getElementById("editName").value;
+      const newAge = document.getElementById("editAge").value;
+      const newGrade = document.getElementById("editGrade").value;
+
+      if (editingRow) {
+        editingRow.cells[0].textContent = newName;
+        editingRow.cells[1].textContent = newAge;
+        editingRow.cells[2].textContent = newGrade;
+      }
+
+      editForm.reset();
+      editFormContainer.classList.add("hidden");
+    });
+  </script>
+</body>
+</html>
